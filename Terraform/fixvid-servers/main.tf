@@ -79,6 +79,7 @@ module "devops" {
 module "toolbox" {
   source    = "../fixvid-modules/instance"
   name      = "toolbox-${local.env}"
+  size      = 5
   address   = "${local.subnet}.11/24"
   gateway   = local.gateway
   pool      = local.envpool
@@ -110,20 +111,20 @@ module "demo2" {
 
 ///////////////////////
 // nginx
-module "demo1-nginx" {
-  source    = "../fixvid-modules/install-nginx"
-  ip        = module.demo1.ip
-  ssh_user  = var.ssh_user
-  ssh_key   = var.ssh_key
-}
-///////////////////////
-// docker
-module "devops-docker" {
-  source     = "../fixvid-modules/install-docker"
-  ip         = module.devops.ip
-  ssh_user   = var.ssh_user
-  ssh_key    = var.ssh_key
-}
+# module "demo1-nginx" {
+#   source    = "../fixvid-modules/install-nginx"
+#   ip        = module.demo1.ip
+#   ssh_user  = var.ssh_user
+#   ssh_key   = var.ssh_key
+# }
+# ///////////////////////
+# // docker
+# module "devops-docker" {
+#   source     = "../fixvid-modules/install-docker"
+#   ip         = module.devops.ip
+#   ssh_user   = var.ssh_user
+#   ssh_key    = var.ssh_key
+# }
 
 ///////////////////////
 // ansible

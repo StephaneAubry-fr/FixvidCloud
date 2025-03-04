@@ -272,6 +272,12 @@ curl -k https://192.168.1.224/v2/_catalog
 docker pull 192.168.1.224/my-nginx
 docker pull 192.168.1.224/atlassian/jira-software
 
+## github
+
+eval "$(ssh-agent -s)" 
+ssh-add ~/.ssh/github
+git clone git@github.com:StephaneAubry-fr/FixvidToolboxAnsible.git ~/ansible
+git clone -b main --depth 1 --single-branch git@github.com:StephaneAubry-fr/FixvidToolboxAnsible.git ~/ansible
 
 
 ## Ansible
@@ -293,4 +299,3 @@ docker pull 192.168.1.224/atlassian/jira-software
 
     ansible-inventory --list -y
     ansible all -m ping
-

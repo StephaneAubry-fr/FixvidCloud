@@ -1,5 +1,10 @@
-[servers]
+[backup]
 devops
+
+[restore]
+devops
+
+[demos]
 demo1
 demo2
 

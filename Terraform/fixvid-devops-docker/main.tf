@@ -11,8 +11,8 @@ terraform {
 locals {
   env = terraform.workspace
   host = "ssh://devops-${local.env}"
-  //cache = "192.168.1.224/"
-  cache = ""
+  cache = "192.168.1.224/"
+  //cache = ""
 }
 
 ///////////////////////
