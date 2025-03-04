@@ -1,0 +1,7 @@
+#cloud-config
+users:
+  - default
+  - name: devops
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICCuvf+f47KFRnF1SxhyU3pfPfNIDelooHqNseoYriWt devops

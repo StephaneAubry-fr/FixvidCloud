@@ -1,0 +1,24 @@
+
+vm_name = "toolbox"
+vm_ip = "10.0.1.10"
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "alvistack/ubuntu-24.04"
+  config.vm.box_version = "20250210.0.0"
+  
+  # config.vm.synced_folder "../../Terraform", "/Terraform"
+  # config.vm.network "private_network", ip: vm_ip
+
+  config.vm.network "public_network", ip: "192.168.1.42", hostname: true
+
+  config.vm.hostname = vm_name
+  config.vm.define vm_name
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = vm_name
+    vb.memory = "1024"
+  end
+  
+  config.vm.provision "shell", name: "common", path: "install-common.sh"
+  #config.vm.provision "shell", name: "virtualbox", path: "install-virtualbox.sh"
+  #config.vm.provision "shell", name: "terraform", path: "install-terraform.sh"
+end

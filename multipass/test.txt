@@ -1,0 +1,25 @@
+multipass launch --name foo
+multipass exec testvm -- lsb_release -a
+multipass list
+multipass stop foo bar
+multipass start foo
+multipass delete testvm
+multipass purge
+multipass launch -n bar --cloud-init cloud-config.yaml
+
+
+multipass launch -n testvm --cloud-init user_data.yaml --network "WiFi 2"
+multipass info testvm
+ssh devops@192.168.1.202 -i devops -o StrictHostKeyChecking=no
+
+
+multipass exec testvm -- ifconfig
+
+multipass networks
+
+
+
+multipass stop testvm
+
+multipass.gui
+
