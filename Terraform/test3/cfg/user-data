@@ -1,0 +1,26 @@
+#cloud-config
+keyboard:
+  layout: fr
+  model: pc105
+  variant: latin9
+
+password: toto
+chpasswd:
+  expire: False
+
+users:
+  - default
+  - name: devops
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    # plain_text_passwd: devops
+    lock_passwd: false
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC2TXfy6E7hZa5XZ78qt+epcAthkhmeyPtY+OyRU5+Mh devops
+
+#alpine
+runcmd:
+  - setup-keymap fr fr
+  - echo "UsePAM yes" > /etc/ssh/sshd_config.d/use_pam.conf
+  - rc-service sshd restart
+  - apk update
+  - apk add sudo

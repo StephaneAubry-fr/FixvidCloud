@@ -1,0 +1,12 @@
+#cloud-config
+network:
+  version: 2
+  ethernets:
+    ens3:
+      dhcp4: no
+      addresses: [${address}]
+      routes:
+        - to: default
+          via: ${gateway}
+      nameservers:
+        addresses: [8.8.8.8,8.8.4.4]

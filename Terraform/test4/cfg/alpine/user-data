@@ -1,0 +1,48 @@
+#cloud-config
+#################################
+## network
+write_files:
+  - path: /etc/network/interfaces
+    content: |
+      auto lo
+      iface lo inet loopback
+
+      auto eth0
+      iface eth0 inet static
+        address 10.0.1.6/24
+        gateway 10.0.1.1
+        up ip route add default via 10.0.1.1
+
+#################################
+## users
+password: toto
+chpasswd:
+  expire: False
+
+users:
+  - default
+  - name: devops
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    # plain_text_passwd: devops
+    lock_passwd: false
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC2TXfy6E7hZa5XZ78qt+epcAthkhmeyPtY+OyRU5+Mh devops
+
+#################################
+package_update: true
+#package_upgrade: true
+#package_reboot_if_required: true
+#package_reboot: true
+
+packages:
+  - sudo
+
+#################################
+
+runcmd:
+  - setup-keymap fr fr
+  - echo "UsePAM yes" > /etc/ssh/sshd_config.d/use_pam.conf
+  - rc-update add staticroute
+  - rc-service sshd restart
+  - rc-service networking restart
+  - rc-service staticroute restart

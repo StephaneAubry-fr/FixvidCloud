@@ -1,0 +1,14 @@
+#cloud-config
+network-interfaces: |
+  auto eth0
+  iface eth0 inet static
+  address ${subnet}.${subip}
+  network ${subnet}.0
+  netmask ${netmask}
+  broadcast ${subnet}.255
+  gateway ${subnet}.1
+  dns-nameservers 8.8.8.8
+
+bootcmd:
+  - ifdown eth0
+  - ifup eth0

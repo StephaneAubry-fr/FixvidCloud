@@ -1,0 +1,62 @@
+-----------------
+https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
+https://dl-cdn.alpinelinux.org/alpine/v3.21/releases/cloud/nocloud_alpine-3.21.2-x86_64-bios-cloudinit-r0.qcow2
+https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/cloud/nocloud_alpine-3.19.6-x86_64-bios-cloudinit-r0.qcow2
+-----------------
+#terminal1
+python3 -m http.server --directory ./src
+
+#terminal2 - noble
+qemu-system-x86_64                                            \
+    -net nic                                                    \
+    -net user,hostfwd=tcp::10222-:22                                                   \
+    -machine accel=kvm:tcg                                      \
+    -m 512                                                      \
+    -nographic                                                  \
+    -hda noble-server-cloudimg-amd64.img                      \
+    -smbios type=1,serial=ds='nocloud;s=http://10.0.2.2:8000/'
+
+sshpass -p password  ssh ubuntu@localhost -p10222 -o PasswordAuthentication=yes
+
+
+
+ssh -o PasswordAuthentication=yes -o PreferredAuthentications=keyboard-interactive,password -o PubkeyAuthentication=no ubuntu@localhost -p2222
+
+
+#terminal2 - alpine
+qemu-system-x86_64                                            \
+    -net nic                                                    \
+    -net user,hostfwd=tcp::11222-:22                                                   \
+    -machine accel=kvm:tcg                                      \
+    -m 512                                                      \
+    -nographic                                                  \
+    -hda nocloud_alpine-3.21.2-x86_64-bios-cloudinit-r0.qcow2                \
+    -smbios type=1,serial=ds='nocloud;s=http://10.0.2.2:8000/'
+
+sshpass -p password ssh alpine@localhost -p11222
+
+#terminal3 - check
+ps -ef | grep qemu-system-x86_64
+
+--------------
+
+I think the arguments to do that would be something like
+-net user,hostfwd=tcp::2222-:22
+
+(or -net user,hostfwd=tcp:127.0.0.1:2222-:22
+if you only wish to allow connections from the host itself),
+where "2222" is the port to forward on the host side,
+and "22" (well-known ssh port) is the port to which to forward on the guest side.
+Once you start qemu with this argument, you should be able to ssh to the guest with ssh -p 2222 (or whatever number you chose).
+
+ssh ubuntu@localhost -p2222
+
+
+--Azerty
+ubuntu : sudo loadkeys fr
+alpine : doas setup-keymap fr fr 2>/dev/null
+
+doas rc-service sshd restart
+vi /etc/ssh/sshd_config
+
+UsePAM yes

@@ -1,0 +1,12 @@
+virsh net-list --all
+virsh net-dumpxml default
+
+virsh net-define network.xml
+virsh net-start test-dhcp
+
+virsh net-dhcp-leases test-dhcp
+
+virsh net-destroy test-dhcp
+virsh net-undefine test-dhcp
+
+ls /var/lib/libvirt/dnsmasq
