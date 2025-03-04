@@ -111,20 +111,20 @@ module "demo2" {
 
 ///////////////////////
 // nginx
-# module "demo1-nginx" {
-#   source    = "../fixvid-modules/install-nginx"
-#   ip        = module.demo1.ip
-#   ssh_user  = var.ssh_user
-#   ssh_key   = var.ssh_key
-# }
-# ///////////////////////
-# // docker
-# module "devops-docker" {
-#   source     = "../fixvid-modules/install-docker"
-#   ip         = module.devops.ip
-#   ssh_user   = var.ssh_user
-#   ssh_key    = var.ssh_key
-# }
+module "demo1-nginx" {
+  source    = "../fixvid-modules/install-nginx"
+  ip        = module.demo1.ip
+  ssh_user  = var.ssh_user
+  ssh_key   = var.ssh_key
+}
+///////////////////////
+// docker
+module "devops-docker" {
+  source     = "../fixvid-modules/install-docker"
+  ip         = module.devops.ip
+  ssh_user   = var.ssh_user
+  ssh_key    = var.ssh_key
+}
 
 ///////////////////////
 // ansible
