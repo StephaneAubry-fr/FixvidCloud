@@ -8,7 +8,7 @@ launch_terraform(){
 
 TEST_START=$(date '+%m/%d/%Y %H:%M:%S')
 
-pushd ./fixvid-modules/instance/certs || exit
+pushd ./certs || exit
 ssh-keygen -C deployer -f deployer
 popd  || exit
 
