@@ -1,0 +1,17 @@
+Host devops
+    HostName ${subnet}.10
+    User deployer
+    PubKeyAuthentication yes
+    IdentityFile ~/.ssh/deployer
+
+Host demo1
+    HostName ${subnet}.20
+    User deployer
+    PubKeyAuthentication yes
+    IdentityFile ~/.ssh/deployer
+
+Host demo2
+    HostName ${subnet}.30
+    User deployer
+    PubKeyAuthentication yes
+    IdentityFile ~/.ssh/deployer

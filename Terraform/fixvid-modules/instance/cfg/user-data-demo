@@ -1,0 +1,19 @@
+#cloud-config
+keyboard:
+  layout: fr
+  model: pc105
+  variant: latin9
+
+users:
+  - name: provisioner
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: false
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIBKCr8T96UobCEmBwepql43bSLKHDSV8cd5ZsjgfXqe provisioner
+  - name: deployer
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: false
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIADgw0uh+XbamlL30etaV5cDSvos2F0QSoL7VsSJoVMG deployer

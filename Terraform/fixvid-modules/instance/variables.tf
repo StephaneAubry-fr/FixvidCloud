@@ -5,8 +5,9 @@ variable "gateway" {}
 variable "pool" {}
 variable "basepool" {}
 variable "size" {
-    default = 0
+    default = null
 }
+
 variable "cpu" {
     type    = string
     default = 1

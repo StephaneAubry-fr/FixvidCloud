@@ -10,3 +10,5 @@ virsh net-destroy test-dhcp
 virsh net-undefine test-dhcp
 
 ls /var/lib/libvirt/dnsmasq
+
+virsh net-start fixvid-dev

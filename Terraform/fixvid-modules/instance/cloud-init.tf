@@ -1,3 +1,6 @@
+locals{
+  prototype = split("-", var.name)[0]
+}
 
 data "template_file" "meta_data" {
   template = file("${path.module}/cfg/meta-data")
@@ -7,7 +10,7 @@ data "template_file" "meta_data" {
 }
 
 data "template_file" "user_data" {
-  template = file("${path.module}/cfg/user-data")
+  template = file("${path.module}/cfg/user-data-${local.prototype}")
 }
 
 data "template_file" "network_config" {

@@ -7,14 +7,14 @@ destroy_terraform(){
 
 TEST_START=$(date '+%m/%d/%Y %H:%M:%S')
 
-pushd ./fixvid-devops-docker/
+pushd ./fixvid-devops-docker/ || exit
 destroy_terraform
-popd
+popd || exit
 
-pushd ./fixvid-servers/
+pushd ./fixvid-servers/ || exit
 pwd
 destroy_terraform
-popd
+popd || exit
 
 CURRENT_TIME=$(date '+%m/%d/%Y %H:%M:%S')
 START_IN_SECONDS=$(date --date "$TEST_START" +%s)

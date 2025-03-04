@@ -1,0 +1,7 @@
+[servers]
+devops
+demo1
+demo2
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3

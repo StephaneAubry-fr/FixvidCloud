@@ -64,7 +64,7 @@ resource "libvirt_network" "fixvid-net" {
 ///////////////////////
 // VM
 module "devops" {
-  source    = "./modules/instance"
+  source    = "../fixvid-modules/instance"
   name      = "devops-${local.env}"
   cpu       = 2
   memory    = 2048
@@ -77,7 +77,7 @@ module "devops" {
 }
 
 module "toolbox" {
-  source    = "./modules/instance"
+  source    = "../fixvid-modules/instance"
   name      = "toolbox-${local.env}"
   address   = "${local.subnet}.11/24"
   gateway   = local.gateway
@@ -87,8 +87,8 @@ module "toolbox" {
   }
 
 module "demo1" {
-  source    = "./modules/instance"
-  name      = "demo1-${local.env}"
+  source    = "../fixvid-modules/instance"
+  name      = "demo-1-${local.env}"
   memory    = 512
   address   = "${local.subnet}.20/24"
   gateway   = local.gateway
@@ -98,8 +98,8 @@ module "demo1" {
 }
 
 module "demo2" {
-  source    = "./modules/instance"
-  name      = "demo2-${local.env}"
+  source    = "../fixvid-modules/instance"
+  name      = "demo-2-${local.env}"
   memory    = 512
   address   = "${local.subnet}.30/24"
   gateway   = local.gateway
@@ -111,7 +111,7 @@ module "demo2" {
 ///////////////////////
 // nginx
 module "demo1-nginx" {
-  source    = "./modules/install-nginx"
+  source    = "../fixvid-modules/install-nginx"
   ip        = module.demo1.ip
   ssh_user  = var.ssh_user
   ssh_key   = var.ssh_key
@@ -119,10 +119,20 @@ module "demo1-nginx" {
 ///////////////////////
 // docker
 module "devops-docker" {
-  source     = "./modules/install-docker"
+  source     = "../fixvid-modules/install-docker"
   ip         = module.devops.ip
   ssh_user   = var.ssh_user
   ssh_key    = var.ssh_key
+}
+
+///////////////////////
+// ansible
+module "toolbox-ansible" {
+  source     = "../fixvid-modules/config-ansible"
+  ip         = module.toolbox.ip
+  ssh_user   = var.ssh_user
+  ssh_key    = var.ssh_key
+  subnet     = local.subnet
 }
 
 ///////////////////////
