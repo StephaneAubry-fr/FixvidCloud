@@ -10,6 +10,7 @@
 
     $ ssh-keygen -C devops -f devops
     $ ssh-keygen -C provisioner -f provisioner
+    $ ssh-keygen -C deployer -f deployer
 
 Puis recopier le id_rsa.pub sur le target dans
 
@@ -135,6 +136,22 @@ puis
 
     sudo systemctl restart libvirtd
 
+## virsh
+
+    virsh net-list --all
+    virsh net-dumpxml default
+    
+    virsh net-define network.xml
+    virsh net-start test-dhcp
+    
+    virsh net-dhcp-leases test-dhcp
+    
+    virsh net-destroy test-dhcp
+    virsh net-undefine test-dhcp
+    
+    ls /var/lib/libvirt/dnsmasq
+    
+    virsh net-start fixvid-dev
 
 ## docker
 
@@ -255,4 +272,25 @@ curl -k https://192.168.1.224/v2/_catalog
 docker pull 192.168.1.224/my-nginx
 docker pull 192.168.1.224/atlassian/jira-software
 
-cidy2dzu75nwxc2dbv57
+
+
+## Ansible
+- /etc/ansible/hosts
+
+
+    [servers]
+    devops
+    demo1
+    demo2
+    
+    [all:vars]
+    ansible_python_interpreter=/usr/bin/python3
+
+
+
+- test
+
+
+    ansible-inventory --list -y
+    ansible all -m ping
+

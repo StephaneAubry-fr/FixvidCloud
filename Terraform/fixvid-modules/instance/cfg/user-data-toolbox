@@ -11,6 +11,14 @@ users:
     shell: /bin/bash
     ssh_authorized_keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIBKCr8T96UobCEmBwepql43bSLKHDSV8cd5ZsjgfXqe provisioner
+  - name: deployer
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: false
+    shell: /bin/bash
 
-#runcmd:
-#  - usermod -s /bin/bash provisioner
+####
+
+package_update: true
+packages:
+  - git
+  - ansible
