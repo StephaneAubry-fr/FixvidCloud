@@ -152,6 +152,7 @@ puis
     ls /var/lib/libvirt/dnsmasq
     
     virsh net-start fixvid-dev
+    virsh net-autostart fixvid-dev
 
 ## docker
 
@@ -241,9 +242,18 @@ pull and publish
     docker tag jenkins/jenkins:lts-jdk21 localhost:443/jenkins/jenkins:lts-jdk21
     docker push localhost:443/jenkins/jenkins:lts-jdk21
 
+    docker pull atlassian/confluence:latest
+    docker tag atlassian/confluence:latest  localhost:443/atlassian/confluence:latest 
+    docker push localhost:443/atlassian/confluence:latest
 
+    docker pull postgres
+    docker tag postgres  localhost:443/postgres
+    docker push localhost:443/postgres
 
-curl -k https://192.168.1.224/v2/_catalog
+    docker images
+    curl -k https://192.168.1.224/v2/_catalog
+    
+    docker pull 192.168.1.224/postgres
 
 - VM 
 Copy the domain.crt file to /etc/docker/certs.d/myregistrydomain.com:5000/ca.crt on every Docker host. 
@@ -271,6 +281,27 @@ docker info
 curl -k https://192.168.1.224/v2/_catalog
 docker pull 192.168.1.224/my-nginx
 docker pull 192.168.1.224/atlassian/jira-software
+
+- postgres
+
+
+    docker run -d \
+    --name fixvid-conflence-db \
+    -e POSTGRES_DB=fixvid-conflence-db \
+    -e POSTGRES_DB=confluence \
+    -e POSTGRES_PASSWORD=confluence \
+    postgres
+    
+    
+    docker exec -it fixvid-conflence-db echo toto
+    
+    
+    docker exec -i fixvid-conflence-db psql -v ON_ERROR_STOP=1 --username "confluence" --dbname "fixvid-conflence-db" <<-EOSQL 
+    SELECT current_database();
+    EOSQL
+
+
+
 
 ## github
 
