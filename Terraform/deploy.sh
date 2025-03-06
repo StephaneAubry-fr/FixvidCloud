@@ -8,10 +8,10 @@ launch_terraform(){
 
 TEST_START=$(date '+%m/%d/%Y %H:%M:%S')
 
-pushd ./certs || exit
-ssh-keygen -C deployer -f deployer
-ssh-keygen -C github -f github
-popd  || exit
+#pushd ./certs || exit
+#ssh-keygen -C deployer -f deployer
+#ssh-keygen -C github -f github
+#popd  || exit
 
 pushd ./fixvid-servers/ || exit
 launch_terraform

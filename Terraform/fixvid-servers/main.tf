@@ -66,9 +66,9 @@ resource "libvirt_network" "fixvid-net" {
 module "devops" {
   source    = "../fixvid-modules/instance"
   name      = "devops-${local.env}"
-  cpu       = 2
-  memory    = 2048
-  size      = 10
+  cpu       = 4
+  memory    = 8*1024
+  size      = 15
   address   = "${local.subnet}.10/24"
   gateway   = local.gateway
   pool      = local.envpool
@@ -79,6 +79,7 @@ module "devops" {
 module "toolbox" {
   source    = "../fixvid-modules/instance"
   name      = "toolbox-${local.env}"
+  memory    = 4*1024
   size      = 5
   address   = "${local.subnet}.11/24"
   gateway   = local.gateway
