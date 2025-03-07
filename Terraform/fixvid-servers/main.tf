@@ -16,33 +16,31 @@ provider "libvirt" {
 variable "ssh_user" {}
 variable "ssh_key" {}
 
+locals {
+  env = terraform.workspace
+}
 ///////////////////////
 // img pool
 
 // basepool "local-base-img" manually managed
 
 resource "libvirt_pool" "local-kvm-img" {
-  name = "local-kvm-img"
+  name = "local-kvm-img-${local.env}"
   type = "dir"
   target {
-    path = "/home/dadou/W/images/local-kvm-img"
+    path = "/home/dadou/W/images/local-kvm-img-${local.env}"
   }
 }
 ///////////////////////
 // workspace
 locals {
-  env = terraform.workspace
 
-  pool = {
-    default = libvirt_pool.local-kvm-img
-    dev     = libvirt_pool.local-kvm-img
-    prod    = libvirt_pool.local-kvm-img
-  }
-  envpool     = lookup(local.pool,local.env).name
+  envpool     = libvirt_pool.local-kvm-img.name
   envbasepool = "local-base-img"
   net = {
     default = "10.0.1"
     dev     = "10.0.2"
+    qa      = "10.0.3"
     prod    = "10.0.5"
   }
   subnet  = lookup(local.net,local.env)
@@ -79,7 +77,7 @@ module "devops" {
 module "toolbox" {
   source    = "../fixvid-modules/instance"
   name      = "toolbox-${local.env}"
-  memory    = 4*1024
+  memory    = 512
   size      = 5
   address   = "${local.subnet}.11/24"
   gateway   = local.gateway

@@ -18,3 +18,26 @@ resource "docker_container" "docker-confluence" {
     external = 81
   }
 }
+
+resource "time_sleep" "wait_30_seconds" {
+  depends_on = [docker_container.docker-confluence]
+  create_duration = "30s"
+}
+
+resource "null_resource" "docker-confluence-idsever" {
+  depends_on = [time_sleep.wait_30_seconds]
+
+  connection {
+    type        = "ssh"
+    host        = local.ip
+    user        = var.ssh_user
+    private_key = file(var.ssh_key)
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "docker exec -i confluence sed -i 's;<properties>;<properties><property name=\"confluence.setup.server.id\">${var.confluence_idserver}</property>;' confluence.cfg.xml",
+      "docker restart confluence"
+    ]
+  }
+}

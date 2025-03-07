@@ -282,7 +282,13 @@ curl -k https://192.168.1.224/v2/_catalog
 docker pull 192.168.1.224/my-nginx
 docker pull 192.168.1.224/atlassian/jira-software
 
-- postgres
+## docker - sed
+
+
+docker exec -i confluence sed -i 's/<property name="confluence.setup.server.id">.*</property>/<property name="confluence.setup.server.id">BUVS-ZF5Y-WEH4-6WMN<\/property>/' ./confluence.cfg.xml
+docker exec -i confluence sed -i 's;<property name="confluence.setup.server.id">.*</property>;<property name="confluence.setup.server.id">BUVS-ZF5Y-WEH4-6WMN</property>;' confluence.cfg.xml
+
+## docker - postgres
 
 
     docker run -d \
@@ -300,9 +306,19 @@ docker pull 192.168.1.224/atlassian/jira-software
     SELECT current_database();
     EOSQL
 
+    pg_dump -h localhost -p 5432 -U postgres -F c -b -v 
+   
+    docker exec -i fixvid-conflence-db pg_dump -U confluence -c fixvid-conflence-db > backup_confluence.sql 
 
+    scp devops-dev:~/backup_confluence.sql ~/W/backup/
+    scp ~/W/backup/backup_confluence.sql devops-qa:~/
+    
+    docker stop confluence
+    docker exec -i fixvid-conflence-db psql -U confluence -d fixvid-conflence-db < backup_confluence.sql
+    docker start confluence
 
-
+    docker exec -i confluence ls /var/atlassian/application-data/confluence/restore/site
+    
 ## github
 
 eval "$(ssh-agent -s)" 

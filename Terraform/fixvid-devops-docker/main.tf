@@ -19,10 +19,25 @@ List:
 ///////////////////////
 locals {
   env = terraform.workspace
+
+  net = {
+    default = "10.0.1"
+    dev     = "10.0.2"
+    qa      = "10.0.3"
+    prod    = "10.0.5"
+  }
+  subnet  = lookup(local.net,local.env)
+  ip = "${local.subnet}.10"
+
   host = "ssh://devops-${local.env}"
   cache = "192.168.1.224/"
   //cache = ""
 }
+
+///////////////////////
+variable confluence_idserver {}
+variable "ssh_user" {}
+variable "ssh_key" {}
 
 ///////////////////////
 // docker
