@@ -7,7 +7,7 @@ keyboard:
 users:
   - name: provisioner
     sudo: ALL=(ALL) NOPASSWD:ALL
-    lock_passwd: false
+    lock_passwd: true
     shell: /bin/bash
     ssh_authorized_keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIBKCr8T96UobCEmBwepql43bSLKHDSV8cd5ZsjgfXqe provisioner
@@ -17,3 +17,11 @@ users:
     shell: /bin/bash
     ssh_authorized_keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIADgw0uh+XbamlL30etaV5cDSvos2F0QSoL7VsSJoVMG deployer
+
+chpasswd:
+  expire: false
+  users:
+    - {name: provisioner, type: RANDOM}
+    - {name: deployer, password: $6$CdxU9mlGGBfErBAu$hg1Tc8aVdmcb/2ahXQF6khDtDlstdAmdLMZsi5dQG0B8PreXp5qec6tKoIs4pRnQ15YD.okTcM4LOC1iwtamz.}
+
+ssh_pwauth: True
