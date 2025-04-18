@@ -136,6 +136,11 @@ puis
 
     sudo systemctl restart libvirtd
 
+## cloud init
+- set user pwd
+  
+      mkpasswd -m sha-512
+
 ## virsh
 
     virsh net-list --all
@@ -249,6 +254,12 @@ pull and publish
     docker pull postgres
     docker tag postgres  localhost:443/postgres
     docker push localhost:443/postgres
+
+    docker pull releases-docker.jfrog.io/jfrog/artifactory-oss:latest
+    docker tag releases-docker.jfrog.io/jfrog/artifactory-oss:latest localhost:443/releases-docker.jfrog.io/jfrog/artifactory-oss:latest
+    docker push localhost:443/releases-docker.jfrog.io/jfrog/artifactory-oss:latest
+
+
 
     docker images
     curl -k https://192.168.1.224/v2/_catalog
