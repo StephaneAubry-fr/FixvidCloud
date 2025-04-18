@@ -1,5 +1,5 @@
 locals {
-  dbname = "fixvid-conflence-db"
+  dbname = "fixvid-confluence-db"
   dbuser = "confluence"
   dbpwd  = "confluence"
 }
